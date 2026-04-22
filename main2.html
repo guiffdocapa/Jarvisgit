@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JARVIS - Chat Esportivo</title>
+
+ <style>
+    
+      /*Reseta o padding padrão do navegador*/
+        * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+        }
+
+      /* cor de fundo da pagina toda */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0d1b2a;
+      color: white;
+        }
+       
+      /*container principal*/
+    .app {
+          display: flex;
+          height: 100vh;
+        }
+        
+      /* sidebar é a barra do lado*/
+    .sidebar {
+      width: 250px;
+      background-color: #1b263b;
+      padding: 20px;
+      border-right: 2px solid #2c3e50;
+       }
+
+    .sidebar h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 22px;
+       }
+
+      /* cada esporte é um botão clicavel */
+    .esporte-botao {
+      background-color: #415a77;
+      padding: 12px;
+      margin-bottom: 10px; /* espaco entre os botoes */
+      border-radius: 8px;
+      cursor: pointer; /* muda o cursor pra maozinha */
+      /* transition é animacao suave*/
+      transition: background-color 0.3s;
+      font-size: 16px;
+      }
+
+     /* quando passa o mouse em cima muda de cor */
+    .esporte-botao:hover {
+      background-color: #4ea8de; /* azul mais claro */
+      }
+
+
+</style>
+</head>
+</html>
