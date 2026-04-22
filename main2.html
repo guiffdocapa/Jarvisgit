@@ -7,7 +7,7 @@
 
  <style>
     
-      /*Reseta o padding padrão do navegador*/
+      /Reseta o padding padrão do navegador/
         * {
       box-sizing: border-box;
       margin: 0;
@@ -22,10 +22,10 @@
       color: white;
         }
        
-      /*container principal*/
+      /container principal/
     .app {
-          display: flex;
-          height: 100vh;
+      display: flex;
+      height: 100vh;
         }
         
       /* sidebar é a barra do lado*/
@@ -58,8 +58,96 @@
     .esporte-botao:hover {
       background-color: #4ea8de; /* azul mais claro */
       }
+       
+      /* Area do chat */ 
+    .chat-area {
+      flex: 1; /* ocupa o resto do espaco */
+      display: flex;
+      flex-direction: column; /* coloca em coluna */
+       }
 
+      /* cabecalho do chat */
+    .chat-header {
+      background-color: #4ea8de;
+      padding: 15px 20px;
+      font-weight: bold;
+      font-size: 18px;
+      }
 
+      /* onde as mensagens aparecem */
+    #caixa-de-chat {
+      flex: 1; 
+      padding: 15px;
+      overflow-y: auto; /* rolar quando encher */
+      display: flex;
+      flex-direction: column;
+      gap: 8px; /* espaco entre mensagens */
+       }
+
+      /* estilo de TODA mensagem (user e bot) */
+    .mensagem {
+      padding: 10px 15px;
+      border-radius: 10px;
+      max-width: 65%; /* nao deixa ficar muito largo */
+      word-break: break-word; /* quebra palavras grandes */
+      line-height: 1.4;
+      }
+
+      /* mensagem do USUARIO (lado direito) */
+    .mensagem-usuario {
+      background-color: #4ea8de;
+      align-self: flex-end; /* joga pra direita */
+      }
+
+      /* mensagem do BOT (lado esquerdo) */
+    .mensagem-bot {
+      background-color: #415a77;
+      align-self: flex-start; /* joga pra esquerda */
+      }
+
+      /* parte de baixo onde digita a mensagem */
+    .area-de-input {
+      display: flex;
+      padding: 12px;
+      background-color: #1b263b;
+      gap: 8px; /* espaco entre input e botao */
+      border-top: 1px solid #2c3e50;
+       }
+
+      /* a caixinha de texto */
+    #campo-mensagem {
+      flex: 1;
+      padding: 10px 15px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      font-size: 15px;
+      background-color: #0d1b2a;
+      color: white;
+      }
+
+      /* placeholder do input */
+    #campo-mensagem::placeholder {
+      color: #888; 
+      }
+
+      /* botao de enviar */
+    #botao-enviar {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background-color: #4ea8de;
+      color: white;
+      cursor: pointer; 
+      font-size: 15px;
+      font-weight: bold;
+      transition: background-color 0.2s;
+      }
+
+      /* hover do botao */
+    #botao-enviar:hover {
+      background-color: #3a97cd; /* um pouco mais escuro */
+       } 
 </style>
-</head>
+</head> 
 </html>
