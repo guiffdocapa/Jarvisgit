@@ -1,94 +1,42 @@
-/* style.css design jarvis */
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0d0d0d}
 
-body{
-  background:#0d0d0d;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
-}
+.jarvis-bg{background:#0d0d0d;width:100%;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Courier New',monospace;position:relative;overflow:hidden}
 
-/* container */
-.container{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
+.scanline{position:absolute;inset:0;background:repeating-linear-gradient(to bottom,transparent,transparent 2px,rgba(0,255,255,.015) 2px,rgba(0,255,255,.015) 4px);pointer-events:none;z-index:1}
 
-/* frame */
-.svg-frame{
-  position:relative;
-  width:300px;
-  height:300px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  cursor:pointer;
-}
+.frame-wrapper{position:relative;z-index:2}
 
-/* SVG base */
-.svg-frame svg{
-  position:absolute;
-  width:300px;
-  height:300px;
-  fill:none;
-  transition:0.6s;
-}
+.svg-frame{position:relative;width:280px;height:280px;display:flex;justify-content:center;align-items:center}
+.svg-frame svg{position:absolute;width:280px;height:280px;fill:none}
+.svg-frame circle{filter:drop-shadow(0 0 6px currentColor) drop-shadow(0 0 12px currentColor)}
 
-/* glow */
-.svg-frame circle{
-  filter: drop-shadow(0 0 6px currentColor)
-          drop-shadow(0 0 12px currentColor);
-}
+#out2  {animation:spin     12s linear infinite;transform-origin:center}
+#out3  {animation:spin      6s linear infinite;transform-origin:center}
+#inner1{animation:spin-rev  8s linear infinite;transform-origin:center}
+#inner3{animation:spin      5s linear infinite;transform-origin:center}
 
-/* rotação */
-#out2, #out3, #inner1, #inner3{
-  animation: spin linear infinite;
-  transform-origin:center;
-}
+@keyframes spin    {to{transform:rotate(360deg)}}
+@keyframes spin-rev{to{transform:rotate(-360deg)}}
 
-#out2{ animation-duration:12s; }
-#out3{ animation-duration:6s; }
-#inner1{ animation-duration:8s; }
-#inner3{ animation-duration:5s; }
+#center1{fill:#ffdd00;animation:pulse 2s ease-in-out infinite;transform-origin:172px 172px}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.6);opacity:.7}}
 
-@keyframes spin{
-  from{ transform:rotate(0deg); }
-  to{ transform:rotate(360deg); }
-}
+.corner{position:absolute;width:16px;height:16px;border-color:#00ffff;border-style:solid;opacity:.5}
+.corner-tl{top:-8px;left:-8px;border-width:1.5px 0 0 1.5px}
+.corner-tr{top:-8px;right:-8px;border-width:1.5px 1.5px 0 0}
+.corner-bl{bottom:-8px;left:-8px;border-width:0 0 1.5px 1.5px}
+.corner-br{bottom:-8px;right:-8px;border-width:0 1.5px 1.5px 0}
 
-/* centro pulsando */
-#center1{
-  fill:#ffdd00;
-  animation:pulse 2s infinite;
-}
+.info-panel{position:relative;z-index:2;margin-top:52px;text-align:center}
 
-@keyframes pulse{
-  0%,100%{ transform:scale(1); }
-  50%{ transform:scale(1.2); }
-}
+.system-name{color:#00ffff;font-size:13px;letter-spacing:6px;text-transform:uppercase;opacity:.85;margin-bottom:20px;animation:flicker 4s infinite}
+@keyframes flicker{0%,95%,100%{opacity:.85}96%{opacity:.3}97%{opacity:.85}98%{opacity:.5}99%{opacity:.85}}
 
-/* hover efeito */
-.svg-frame:hover svg{
-  transform:
-    rotate(360deg)
-    scale(1.1)
-    translateX(calc(40px * var(--i)))
-    translateY(calc(-30px * var(--i)));
-}
+.progress-label{color:#ccee00;font-size:10px;letter-spacing:3px;margin-bottom:10px;opacity:.7}
 
-/* fundo glow */
-.svg-frame::before{
-  content:"";
-  position:absolute;
-  width:220px;
-  height:220px;
-  background: radial-gradient(circle, #00ffff33, transparent 70%);
-  border-radius:50%;
-  z-index:-1;
-}
+.progress-bar-wrap{width:240px;height:3px;background:rgba(0,255,255,.1);border:.5px solid rgba(0,255,255,.2);margin:0 auto 12px;overflow:hidden}
+.progress-bar-fill{height:100%;width:0%;background:#00ffff;box-shadow:0 0 8px #00ffff;transition:width .08s linear}
+
+.status-text{color:#00ffff;font-size:10px;letter-spacing:2px;opacity:.5;height:14px}
+.pct-display{color:#ffdd00;font-size:11px;letter-spacing:2px;margin-top:8px;opacity:.8}
