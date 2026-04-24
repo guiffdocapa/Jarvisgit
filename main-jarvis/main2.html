@@ -155,14 +155,14 @@
   <body>
 
       <!--ESTRUTURAPRINCIPAL DO APP -->
-<div class="app">
+    <div class="app">
 
-  <!-- SIDEBAR COM OS ESPORTES -->
-  <!-- cada div aqui é um esporte que o usuario pode clicar -->
-  <div class="sidebar">
+      <!-- SIDEBAR COM OS ESPORTES -->
+      <!-- cada div aqui é um esporte que o usuario pode clicar -->
+    <div class="sidebar">
     <h2> <!--aqui vai a imagem dele-->JARVIS</h2>
 
-    <!-- quando clicar chama a funcao escolherEsporte -->
+      <!-- quando clicar chama a funcao escolherEsporte -->
     <div class="esporte-botao" onclick="escolherEsporte('Futebol')">
       ⚽ Futebol
     </div>
@@ -183,29 +183,52 @@
       🏐 Vôlei
     </div>
 
-  </div>
-  <!-- fim da sidebar -->
+    </div>
+      <!-- fim da sidebar -->
 
-  <!-- AREA PRINCIPAL DO CHAT -->
-  <div class="chat-area">
+      <!-- AREA PRINCIPAL DO CHAT -->
+    <div class="chat-area">
 
-    <!-- cabecalho -->
+       <!-- cabecalho -->
     <div class="chat-header">
       <!--imagem deleee-->JARVIS - Assistente Esportivo
     </div>
 
-    <!-- caixa onde as mensagens aparecem -->
-    <!-- id="caixa-de-chat" pra poder achar com o getElementById -->
+      <!-- caixa onde as mensagens aparecem -->
+      <!-- id="caixa-de-chat" pra poder achar com o getElementById -->
     <div id="caixa-de-chat">
 
       <!-- mensagem inicial do bot quando a pagina abre -->
-      <div class="mensagem mensagem-bot">
-        Olá! Eu sou o JARVIS <!--aqui talvez imagem dele-->Escolha um esporte ou me pergunte qualquer coisa!
-      </div>
+    <div class="mensagem mensagem-bot">
+      Olá! Eu sou o JARVIS <!--aqui talvez imagem dele-->Escolha um esporte ou me pergunte qualquer coisa!
+    </div>
 
     </div>
-    <!-- fim do chat -->
+      <!-- fim do chat -->
+ 
+      <!-- INPUT ONDE O USUARIO DIGITA -->
+    <div class="area-de-input">
+      <input
+        type="text"
+        id="campo-mensagem"
+        placeholder="Digite sua pergunta sobre esportes..."
+        onkeypress="verificarEnter(event)"
+      >
+      <!-- onkeypress detecta quando aperta enter -->
 
+      <button id="botao-enviar" onclick="enviarMensagem()">
+        Enviar
+      </button>
+    </div>
+
+   </div>
+      <!-- fim da chat-area -->
+
+    </div>
+      <!-- fim do app -->
+
+
+    </body>
 </style>
 </head> 
 </html>
