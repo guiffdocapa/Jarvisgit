@@ -1,120 +1,125 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JARVIS - Chat Esportivo</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JARVIS - Chat Esportivo</title>
 
- <style>
-    
-      /*Reseta o padding padrão do navegador*/
-        * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-        }
+  <style>
+    /* zera o padding padrão do navegador */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-      /* cor de fundo da pagina toda */
     body {
-      margin: 0;
       font-family: Arial, sans-serif;
       background: #0d1b2a;
       color: white;
-        }
-       
-      /*container principal*/
-    .app {
-      display: flex;
-      height: 100vh;
-        }
-        
-      /* sidebar é a barra do lado*/
+    }
+
+    /* sidebar e chat ficam lado a lado */
+    .app { display: flex; height: 100vh; }
+
+    /* barra lateral */
     .sidebar {
       width: 250px;
       background-color: #1b263b;
       padding: 20px;
       border-right: 2px solid #2c3e50;
-       }
+    }
 
-    .sidebar h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      font-size: 22px;
-       }
+    .sidebar-logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
 
-      /* cada esporte é um botão clicavel */
+    .sidebar-logo img {
+      width: 80px; height: 80px;
+      object-fit: contain;
+      border-radius: 50%;
+      background-color: #0d1b2a;
+      padding: 6px;
+    }
+
+    .sidebar-logo span { font-size: 22px; font-weight: bold; }
+
+    /* botões de esporte — cursor: pointer faz a mãozinha aparecer */
     .esporte-botao {
       background-color: #415a77;
       padding: 12px;
-      margin-bottom: 10px; /* espaco entre os botoes */
+      margin-bottom: 10px;
       border-radius: 8px;
-      cursor: pointer; /* muda o cursor pra maozinha */
-      /* transition é animacao suave*/
+      cursor: pointer;
       transition: background-color 0.3s;
       font-size: 16px;
-      }
+    }
 
-     /* quando passa o mouse em cima muda de cor */
-    .esporte-botao:hover {
-      background-color: #4ea8de; /* azul mais claro */
-      }
-       
-      /* Area do chat */ 
-    .chat-area {
-      flex: 1; /* ocupa o resto do espaco */
-      display: flex;
-      flex-direction: column; /* coloca em coluna */
-       }
+    .esporte-botao:hover { background-color: #4ea8de; }
 
-      /* cabecalho do chat */
+    /* área direita do chat */
+    .chat-area { flex: 1; display: flex; flex-direction: column; }
+
     .chat-header {
       background-color: #4ea8de;
-      padding: 15px 20px;
+      padding: 12px 20px;
       font-weight: bold;
       font-size: 18px;
-      }
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-      /* onde as mensagens aparecem */
+    .chat-header img {
+      width: 36px; height: 36px;
+      object-fit: contain;
+      border-radius: 50%;
+      background-color: #3a97cd;
+      padding: 3px;
+    }
+
+    /* caixa de mensagens — rola quando encher */
     #caixa-de-chat {
-      flex: 1; 
+      flex: 1;
       padding: 15px;
-      overflow-y: auto; /* rolar quando encher */
+      overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 8px; /* espaco entre mensagens */
-       }
+      gap: 8px;
+    }
 
-      /* estilo de TODA mensagem (user e bot) */
     .mensagem {
       padding: 10px 15px;
       border-radius: 10px;
-      max-width: 65%; /* nao deixa ficar muito largo */
-      word-break: break-word; /* quebra palavras grandes */
+      max-width: 65%;
+      word-break: break-word;
       line-height: 1.4;
-      }
+    }
 
-      /* mensagem do USUARIO (lado direito) */
-    .mensagem-usuario {
-      background-color: #4ea8de;
-      align-self: flex-end; /* joga pra direita */
-      }
+    /* usuário = direita, bot = esquerda */
+    .mensagem-usuario { background-color: #4ea8de; align-self: flex-end; }
+    .mensagem-bot     { background-color: #415a77; align-self: flex-start; }
 
-      /* mensagem do BOT (lado esquerdo) */
-    .mensagem-bot {
-      background-color: #415a77;
-      align-self: flex-start; /* joga pra esquerda */
-      }
+    .mensagem-bot-com-logo { display: flex; align-items: center; gap: 10px; }
 
-      /* parte de baixo onde digita a mensagem */
+    .msg-logo {
+      width: 32px; height: 32px;
+      object-fit: contain;
+      border-radius: 50%;
+      background-color: #0d1b2a;
+      padding: 3px;
+      flex-shrink: 0;
+    }
+
+    /* barra de input no fundo */
     .area-de-input {
       display: flex;
       padding: 12px;
       background-color: #1b263b;
-      gap: 8px; /* espaco entre input e botao */
+      gap: 8px;
       border-top: 1px solid #2c3e50;
-       }
+    }
 
-      /* a caixinha de texto */
     #campo-mensagem {
       flex: 1;
       padding: 10px 15px;
@@ -124,111 +129,327 @@
       font-size: 15px;
       background-color: #0d1b2a;
       color: white;
-      }
+    }
 
-      /* placeholder do input */
-    #campo-mensagem::placeholder {
-      color: #888; 
-      }
-
-      /* botao de enviar */
+    #campo-mensagem::placeholder { color: #888; }
+      
     #botao-enviar {
       padding: 10px 20px;
       border: none;
       border-radius: 8px;
       background-color: #4ea8de;
       color: white;
-      cursor: pointer; 
+      cursor: pointer;
       font-size: 15px;
       font-weight: bold;
       transition: background-color 0.2s;
-      }
+    }
 
-      /* hover do botao */
-    #botao-enviar:hover {
-      background-color: #3a97cd; /* um pouco mais escuro */
-       } 
+    #botao-enviar:hover { background-color: #3a97cd; }
 
+    /* tela de loading — cobre tudo com z-index alto */
+    #loading-screen {
+      position: fixed;
+      inset: 0;
+      background: #0d0d0d;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      font-family: 'Courier New', monospace;
+      transition: opacity 0.8s ease;
+    }
+
+    /* classe adicionada via JS quando o loading termina */
+    #loading-screen.ocultar { opacity: 0; pointer-events: none; }
+
+    /* linhas estilo monitor CRT */
+    .scanline {
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(to bottom, transparent, transparent 2px, rgba(0,255,255,.015) 2px, rgba(0,255,255,.015) 4px);
+      pointer-events: none;
+    }
+
+    /* frame dos círculos animados */
+    .svg-frame {
+      position: relative;
+      width: 280px; height: 280px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .svg-frame svg { position: absolute; width: 280px; height: 280px; fill: none; }
+    .svg-frame circle { filter: drop-shadow(0 0 6px currentColor) drop-shadow(0 0 12px currentColor); }
+
+    /* cantos decorativos do frame */
+    .corner { position: absolute; width: 16px; height: 16px; border-color: #00ffff; border-style: solid; opacity: .5; }
+    .corner-tl { top: -8px;    left: -8px;  border-width: 1.5px 0 0 1.5px; }
+    .corner-tr { top: -8px;    right: -8px; border-width: 1.5px 1.5px 0 0; }
+    .corner-bl { bottom: -8px; left: -8px;  border-width: 0 0 1.5px 1.5px; }
+    .corner-br { bottom: -8px; right: -8px; border-width: 0 1.5px 1.5px 0; }
+
+    /* cada círculo gira em velocidade diferente — efeito HUD */
+    #out2   { animation: spin     12s linear infinite; transform-origin: center; }
+    #out3   { animation: spin      6s linear infinite; transform-origin: center; }
+    #inner1 { animation: spin-rev  8s linear infinite; transform-origin: center; }
+    #inner3 { animation: spin      5s linear infinite; transform-origin: center; }
+
+    @keyframes spin     { to { transform: rotate(360deg);  } }
+    @keyframes spin-rev { to { transform: rotate(-360deg); } }
+
+    /* ponto central que pulsa */
+    #center1 {
+      fill: #ffdd00;
+      animation: pulse 2s ease-in-out infinite;
+      transform-origin: 172px 172px;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1);   opacity: 1;  }
+      50%       { transform: scale(1.6); opacity: .7; }
+    }
+
+    .info-panel { margin-top: 52px; text-align: center; }
+
+    .system-name {
+      color: #00ffff;
+      font-size: 13px;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      opacity: .85;
+      margin-bottom: 20px;
+      animation: flicker 4s infinite;
+    }
+
+    @keyframes flicker {
+      0%, 95%, 100% { opacity: .85; }
+      96% { opacity: .3;  }
+      97% { opacity: .85; }
+      98% { opacity: .5;  }
+      99% { opacity: .85; }
+    }
+
+    .progress-label { color: #ccee00; font-size: 10px; letter-spacing: 3px; margin-bottom: 10px; opacity: .7; }
+
+    .progress-bar-wrap {
+      width: 240px; height: 3px;
+      background: rgba(0,255,255,.1);
+      border: .5px solid rgba(0,255,255,.2);
+      margin: 0 auto 12px;
+      overflow: hidden;
+    }
+
+    /* largura animada via JS conforme o progresso avança */
+    .progress-bar-fill { height: 100%; width: 0%; background: #00ffff; box-shadow: 0 0 8px #00ffff; transition: width .08s linear; }
+
+    .status-text  { color: #00ffff; font-size: 10px; letter-spacing: 2px; opacity: .5; height: 14px; }
+    .pct-display  { color: #ffdd00; font-size: 11px; letter-spacing: 2px; margin-top: 8px; opacity: .8; }
   </style>
 </head>
 
-  <body>
+<body>
 
-      <!--ESTRUTURAPRINCIPAL DO APP -->
-    <div class="app">
+  <!-- tela de loading: some quando o JS adiciona a classe .ocultar -->
+  <div id="loading-screen">
+    <div class="scanline"></div>
+    <div class="svg-frame">
+      <div class="corner corner-tl"></div>
+      <div class="corner corner-tr"></div>
+      <div class="corner corner-bl"></div>
+      <div class="corner corner-br"></div>
+      <!-- cada SVG é uma camada separada pra poder animar individualmente -->
+      <svg viewBox="0 0 344 344"><circle cx="172" cy="172" r="138" stroke="#00ffff" stroke-width="2.5" stroke-dasharray="60 18 30 18 80 18 40 18" stroke-linecap="round"/></svg>
+      <svg viewBox="0 0 344 344"><g id="out2"><circle cx="172" cy="172" r="108" stroke="#ccee00" stroke-width="2" stroke-dasharray="50 15 25 15 65 15" stroke-linecap="round"/></g></svg>
+      <svg viewBox="0 0 344 344"><g id="out3"><circle cx="172" cy="172" r="80" stroke="#00ffff" stroke-width="2" stroke-dasharray="40 14 20 14 55 14"/></g></svg>
+      <svg viewBox="0 0 344 344"><g id="inner1"><circle cx="172" cy="172" r="55" stroke="#ddcc00" stroke-width="2" stroke-dasharray="30 12 18 12 40 12"/></g></svg>
+      <svg viewBox="0 0 344 344"><g id="inner3"><circle cx="172" cy="172" r="35" stroke="#00ffff" stroke-width="2" stroke-dasharray="22 10 14 10"/></g></svg>
+      <svg viewBox="0 0 344 344"><g id="center"><circle id="center1" cx="172" cy="172" r="10"/></g></svg>
+    </div>
+    <div class="info-panel">
+      <div class="system-name">J.A.R.V.I.S</div>
+      <div class="progress-label" id="stage-label">INICIALIZANDO SISTEMA</div>
+      <div class="progress-bar-wrap"><div class="progress-bar-fill" id="pbar"></div></div>
+      <div class="status-text" id="status-text">AGUARDANDO...</div>
+      <div class="pct-display" id="pct-display">0%</div>
+    </div>
+  </div>
 
-      <!-- SIDEBAR COM OS ESPORTES -->
-      <!-- cada div aqui é um esporte que o usuario pode clicar -->
+  <!-- app principal: sidebar + chat -->
+  <div class="app">
+
     <div class="sidebar">
-    <h2> <!--aqui vai a imagem dele-->JARVIS</h2>
-
-      <!-- quando clicar chama a funcao escolherEsporte -->
-    <div class="esporte-botao" onclick="escolherEsporte('Futebol')">
-      ⚽ Futebol
+      <div class="sidebar-logo">
+        <img src="reator.png" alt="Logo JARVIS">
+        <span>JARVIS</span>
+      </div>
+      <!-- cada botão chama escolherEsporte() com o nome do esporte -->
+      <div class="esporte-botao" onclick="escolherEsporte('Futebol')">⚽ Futebol</div>
+      <div class="esporte-botao" onclick="escolherEsporte('Basquete')">🏀 Basquete</div>
+      <div class="esporte-botao" onclick="escolherEsporte('Futebol Americano')">🏈 Fut. Americano</div>
+      <div class="esporte-botao" onclick="escolherEsporte('Tênis')">🎾 Tênis</div>
+      <div class="esporte-botao" onclick="escolherEsporte('Vôlei')">🏐 Vôlei</div>
     </div>
 
-    <div class="esporte-botao" onclick="escolherEsporte('Basquete')">
-      🏀 Basquete
-    </div>
-
-    <div class="esporte-botao" onclick="escolherEsporte('Futebol Americano')">
-      🏈 Fut. Americano
-    </div>
-
-    <div class="esporte-botao" onclick="escolherEsporte('Tênis')">
-      🎾 Tênis
-    </div>
-
-    <div class="esporte-botao" onclick="escolherEsporte('Vôlei')">
-      🏐 Vôlei
-    </div>
-
-    </div>
-      <!-- fim da sidebar -->
-
-      <!-- AREA PRINCIPAL DO CHAT -->
     <div class="chat-area">
-
-       <!-- cabecalho -->
-    <div class="chat-header">
-      <!--imagem deleee-->JARVIS - Assistente Esportivo
+      <div class="chat-header">
+        <img src="reator.png" alt="Logo JARVIS">
+        JARVIS - Assistente Esportivo
+      </div>
+      <!-- mensagens aparecem aqui via JS -->
+      <div id="caixa-de-chat"></div>
+      <div class="area-de-input">
+        <input type="text" id="campo-mensagem" placeholder="Digite sua pergunta sobre esportes..." onkeypress="verificarEnter(event)">
+        <button id="botao-enviar" onclick="enviarMensagem()">Enviar</button>
+        </div>
     </div>
 
-      <!-- caixa onde as mensagens aparecem -->
-      <!-- id="caixa-de-chat" pra poder achar com o getElementById -->
-    <div id="caixa-de-chat">
+  </div>
 
-      <!-- mensagem inicial do bot quando a pagina abre -->
-    <div class="mensagem mensagem-bot">
-      Olá! Eu sou o JARVIS <!--aqui talvez imagem dele-->Escolha um esporte ou me pergunte qualquer coisa!
-    </div>
+  <script>
+    const caixaChat = document.getElementById("caixa-de-chat");
+    let esporteSelecionado = "";
 
-    </div>
-      <!-- fim do chat -->
- 
-      <!-- INPUT ONDE O USUARIO DIGITA -->
-    <div class="area-de-input">
-      <input
-        type="text"
-        id="campo-mensagem"
-        placeholder="Digite sua pergunta sobre esportes..."
-        onkeypress="verificarEnter(event)"
-      >
-      <!-- onkeypress detecta quando aperta enter -->
+    // respostas por esporte — sorteia uma aleatória pra não repetir sempre
+    const respostasEsportes = {
+      "Futebol":           ["Hoje tem jogo do Brasileirão! ⚽", "O Palmeiras tá na liderança essa semana!", "Copa do Mundo tá chegando, bora torcer!", "Campeonato Paulista foi insano com o palmeiras sendo campeão 🔥"],
+      "Basquete":          ["NBA com jogos incríveis essa semana! 🏀", "LeBron James fez 40 pontos ontem!", "NBB também tá demais aqui no Brasil!", "Os playoffs tão chegando, fica ligado 👀"],
+      "Futebol Americano": ["NFL no domingo como sempre! 🏈", "Super Bowl foi épico esse ano!", "Tem jogo de Thursday Night Football hoje!", "Patrick Mahomes tá dominando demais 🐐"],
+      "Tênis":             ["Roland Garros começa em breve! 🎾", "Alcaraz tá na final de novo!", "Iga Swiatek continua invicta no saibro", "Wimbledon é o torneio mais chique 🏆"],
+      "Vôlei":             ["Brasil é penta no vôlei! 🏐", "Superliga feminina tá incrível esse ano!", "Gabi Guimarães é a melhor do mundo!", "Liga das Nações começa em breve 🌍"]
+    };
 
-      <button id="botao-enviar" onclick="enviarMensagem()">
-        Enviar
-      </button>
-    </div>
+    const respostasGenericas = [
+      "Boa pergunta! Não sei responder ainda, mas tô aprendendo 🤖",
+      "Hmm, não tenho essa informação agora... tenta me perguntar sobre um esporte específico!",
+      "Estou analisando sua pergunta... 🤔 Me conta mais!",
+      "Isso é sobre esportes? Me conta mais detalhes!"
+    ];
 
-   </div>
-      <!-- fim da chat-area -->
+    // palavras que identificam cada esporte na mensagem do usuário
+    const palavrasChave = {
+      "Futebol":           ["futebol", "gol", "bola"],
+      "Basquete":          ["basquete", "nba", "basketball"],
+      "Futebol Americano": ["americano", "nfl", "touchdown"],
+      "Tênis":             ["tenis", "tênis", "raquete"],
+      "Vôlei":             ["volei", "vôlei", "brasil"]
+    };
 
-    </div>
-      <!-- fim do app -->
+    function aleatorio(lista) {
+      return lista[Math.floor(Math.random() * lista.length)];
+    }
 
+    function adicionarMensagem(texto, tipo) {
+      const msg = document.createElement("div");
+      msg.classList.add("mensagem", tipo);
+      caixaChat.appendChild(msg);
+      caixaChat.scrollTop = caixaChat.scrollHeight;
 
-    </body>
-</style>
-</head> 
+      if (tipo === "mensagem-bot") {
+        // bot: adiciona logo do JARVIS + efeito de digitação
+        const img = document.createElement("img");
+        img.src = "reator.png"; img.alt = "JARVIS"; img.className = "msg-logo";
+        msg.classList.add("mensagem-bot-com-logo");
+        msg.appendChild(img);
+
+        const span = document.createElement("span");
+        msg.appendChild(span);
+
+        let i = 0;
+        const intervalo = setInterval(function () {
+          span.textContent += texto[i++];
+          caixaChat.scrollTop = caixaChat.scrollHeight;
+          if (i >= texto.length) clearInterval(intervalo);
+        }, 18);
+      } else {
+        msg.innerText = texto; // usuário: aparece de uma vez
+      }
+    }
+
+    function escolherEsporte(nomeEsporte) {
+      esporteSelecionado = nomeEsporte;
+      adicionarMensagem(nomeEsporte, "mensagem-usuario");
+      setTimeout(function () {
+        adicionarMensagem(aleatorio(respostasEsportes[nomeEsporte]), "mensagem-bot");
+      }, 600);
+    }
+
+    function detectarEsporte(texto) {
+      const lower = texto.toLowerCase();
+      for (const esporte in palavrasChave) {
+        if (palavrasChave[esporte].some(function (p) { return lower.includes(p); }))
+          return esporte;
+      }
+      return null;
+    }
+
+    function enviarMensagem() {
+      const campo = document.getElementById("campo-mensagem");
+      const texto = campo.value.trim();
+      if (!texto) return;
+
+      adicionarMensagem(texto, "mensagem-usuario");
+      campo.value = "";
+
+      setTimeout(function () {
+        const esporte = detectarEsporte(texto);
+        adicionarMensagem(
+          esporte ? aleatorio(respostasEsportes[esporte]) : aleatorio(respostasGenericas),
+          "mensagem-bot"
+        );
+      }, 700);
+    }
+
+    // event.key é o jeito moderno — keyCode era o antigo
+    function verificarEnter(evento) {
+      if (evento.key === "Enter") enviarMensagem();
+    }
+
+    // loading: anima a barra de 0 a 100% e depois exibe o chat
+    const stages   = ["INICIALIZANDO SISTEMA", "CARREGANDO MÓDULOS", "CALIBRANDO SENSORES", "VERIFICANDO INTEGRIDADE", "SINCRONIZANDO IA", "SISTEMA PRONTO"];
+    const statuses = ["BOOT SEQUENCE STARTED...", "LOADING CORE MODULES...", "SENSOR ARRAY ONLINE...", "INTEGRITY CHECK: OK", "AI SYNC IN PROGRESS...", "ALL SYSTEMS NOMINAL"];
+
+    let pct = 0, stageIdx = 0;
+    const pbar       = document.getElementById("pbar");
+    const stageLabel = document.getElementById("stage-label");
+    const statusText = document.getElementById("status-text");
+    const pctDisplay = document.getElementById("pct-display");
+    const loading    = document.getElementById("loading-screen");
+
+    // tick() se chama a cada 80ms até chegar em 100%
+    function tick() {
+      if (pct < 100) pct = Math.min(pct + Math.random() * 2.2, 100);
+
+      const p = Math.round(pct);
+      pctDisplay.textContent = p + "%";
+      pbar.style.width = p + "%";
+
+      const idx = Math.min(Math.floor(pct / 17), stages.length - 1);
+      if (idx !== stageIdx) {
+        stageIdx = idx;
+        stageLabel.textContent = stages[idx];
+        statusText.textContent = statuses[idx];
+      }
+
+      if (pct >= 100) {
+        stageLabel.textContent = stages[5];
+        statusText.textContent = statuses[5];
+        pctDisplay.textContent = "100%";
+        setTimeout(function () {
+          loading.classList.add("ocultar");
+          setTimeout(function () {
+            loading.style.display = "none";
+            adicionarMensagem("Olá! Eu sou o JARVIS. Escolha um esporte ou me pergunte qualquer coisa!", "mensagem-bot");
+          }, 800);
+        }, 1800);
+        return;
+      }
+
+      setTimeout(tick, 80);
+    }
+
+    tick();
+  </script>
+
+</body>
 </html>
