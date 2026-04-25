@@ -249,6 +249,7 @@
 </head>
 
 <body>
+  <audio id="som-loading" src="jarvis.mp3" preload="auto"></audio>
 
   <!-- tela de loading: some quando o JS adiciona a classe .ocultar -->
   <div id="loading-screen">
@@ -418,6 +419,7 @@
 
     // tick() se chama a cada 80ms até chegar em 100%
     function tick() {
+      document.getElementById("som-loading").play(); 
       if (pct < 100) pct = Math.min(pct + Math.random() * 2.2, 100);
 
       const p = Math.round(pct);
