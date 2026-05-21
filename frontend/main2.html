@@ -6,7 +6,6 @@
   <title>JARVIS - Chat Esportivo</title>
 
   <style>
-    /* zera o padding padrão do navegador */
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
@@ -15,10 +14,9 @@
       color: white;
     }
 
-    /* sidebar e chat ficam lado a lado */
     .app { display: flex; height: 100vh; }
 
-    /* barra lateral */
+    /* ── SIDEBAR ── */
     .sidebar {
       width: 250px;
       background-color: #1b263b;
@@ -44,7 +42,6 @@
 
     .sidebar-logo span { font-size: 22px; font-weight: bold; }
 
-    /* botões de esporte — cursor: pointer faz a mãozinha aparecer */
     .esporte-botao {
       background-color: #415a77;
       padding: 12px;
@@ -57,8 +54,8 @@
 
     .esporte-botao:hover { background-color: #4ea8de; }
 
-    /* área direita do chat */
-    .chat-area { flex: 1; display: flex; flex-direction: column; }
+    /* ── CHAT AREA ── */
+    .chat-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
 
     .chat-header {
       background-color: #4ea8de;
@@ -68,6 +65,7 @@
       display: flex;
       align-items: center;
       gap: 12px;
+      flex-shrink: 0;
     }
 
     .chat-header img {
@@ -78,7 +76,6 @@
       padding: 3px;
     }
 
-    /* caixa de mensagens — rola quando encher */
     #caixa-de-chat {
       flex: 1;
       padding: 15px;
@@ -96,11 +93,9 @@
       line-height: 1.4;
     }
 
-    /* usuário = direita, bot = esquerda */
     .mensagem-usuario { background-color: #4ea8de; align-self: flex-end; }
     .mensagem-bot     { background-color: #415a77; align-self: flex-start; }
-
-    .mensagem-bot-com-logo { display: flex; align-items: center; gap: 10px; }
+    .mensagem-bot-com-logo { display: flex; align-items: flex-start; gap: 10px; }
 
     .msg-logo {
       width: 32px; height: 32px;
@@ -111,13 +106,141 @@
       flex-shrink: 0;
     }
 
-    /* barra de input no fundo */
+    /* ── IMAGEM NA MENSAGEM ── */
+    .msg-imagem {
+      max-width: 260px;
+      max-height: 200px;
+      border-radius: 8px;
+      margin-top: 6px;
+      display: block;
+      border: 1px solid rgba(78,168,222,0.4);
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .msg-imagem:hover { opacity: 0.85; }
+
+    /* ── ARQUIVO NA MENSAGEM ── */
+    .msg-arquivo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0,0,0,0.25);
+      border: 1px solid rgba(78,168,222,0.35);
+      border-radius: 8px;
+      padding: 8px 12px;
+      margin-top: 6px;
+      font-size: 13px;
+    }
+    .msg-arquivo-icone { font-size: 20px; flex-shrink: 0; }
+    .msg-arquivo-info { display: flex; flex-direction: column; gap: 2px; }
+    .msg-arquivo-nome { font-weight: bold; font-size: 12px; word-break: break-all; }
+    .msg-arquivo-tamanho { font-size: 10px; opacity: 0.6; }
+
+    /* ── PREVIEW AREA (acima do input) ── */
+    #area-preview {
+      display: none;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 8px 12px;
+      background: #131f2e;
+      border-top: 1px solid #2c3e50;
+      max-height: 130px;
+      overflow-y: auto;
+    }
+
+    #area-preview.ativo { display: flex; }
+
+    .preview-item {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(78,168,222,0.4);
+      background: #1b263b;
+      animation: fadeIn 0.2s ease;
+    }
+
+    @keyframes fadeIn { from { opacity:0; transform:scale(0.9); } to { opacity:1; transform:scale(1); } }
+
+    .preview-item img {
+      width: 80px; height: 80px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .preview-item-arquivo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 80px; height: 80px;
+      gap: 4px;
+      padding: 6px;
+      text-align: center;
+    }
+
+    .preview-item-arquivo .preview-icone { font-size: 24px; }
+    .preview-item-arquivo .preview-nome {
+      font-size: 9px;
+      color: #ccc;
+      word-break: break-all;
+      overflow: hidden;
+      max-height: 30px;
+      line-height: 1.2;
+    }
+
+    .preview-remover {
+      position: absolute;
+      top: 2px; right: 2px;
+      width: 18px; height: 18px;
+      background: rgba(0,0,0,0.75);
+      border: none;
+      border-radius: 50%;
+      color: #ff5555;
+      font-size: 11px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      transition: background 0.2s;
+    }
+    .preview-remover:hover { background: rgba(200,0,0,0.85); color: white; }
+
+    /* ── INPUT AREA ── */
     .area-de-input {
       display: flex;
-      padding: 12px;
+      align-items: center;
+      padding: 10px 12px;
       background-color: #1b263b;
       gap: 8px;
       border-top: 1px solid #2c3e50;
+      flex-shrink: 0;
+    }
+
+    /* botão de anexo */
+    .btn-anexo {
+      width: 40px; height: 40px;
+      border: none;
+      border-radius: 8px;
+      background-color: #2c3e50;
+      color: #4ea8de;
+      cursor: pointer;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background-color 0.2s, transform 0.15s;
+      position: relative;
+    }
+    .btn-anexo:hover { background-color: #415a77; transform: scale(1.05); }
+    .btn-anexo input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
     }
 
     #campo-mensagem {
@@ -135,6 +258,7 @@
 
     #botao-enviar {
       padding: 10px 20px;
+      height: 40px;
       border: none;
       border-radius: 8px;
       background-color: #4ea8de;
@@ -143,11 +267,49 @@
       font-size: 15px;
       font-weight: bold;
       transition: background-color 0.2s;
+      flex-shrink: 0;
     }
 
     #botao-enviar:hover { background-color: #3a97cd; }
+    #botao-enviar:disabled { background-color: #2c3e50; cursor: not-allowed; opacity: 0.6; }
 
-    /* tela de loading — cobre tudo com z-index alto */
+    /* ── LIGHTBOX (visualização da imagem) ── */
+    #lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.9);
+      z-index: 99998;
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+    }
+    #lightbox.ativo { display: flex; }
+    #lightbox img { max-width: 90vw; max-height: 90vh; border-radius: 8px; box-shadow: 0 0 40px rgba(78,168,222,0.3); }
+
+    /* ── TOAST NOTIFICATION ── */
+    #toast {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: #1b263b;
+      border: 1px solid #4ea8de;
+      color: #4ea8de;
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s, transform 0.3s;
+      z-index: 9999;
+    }
+    #toast.visivel {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ── LOADING SCREEN ── */
     #loading-screen {
       position: fixed;
       inset: 0;
@@ -161,17 +323,14 @@
       transition: opacity 0.8s ease;
     }
 
-    /* classe adicionada via JS quando o loading termina */
     #loading-screen.ocultar { opacity: 0; pointer-events: none; }
 
-    /* linhas estilo monitor CRT */
     .scanline {
       position: absolute; inset: 0;
       background: repeating-linear-gradient(to bottom, transparent, transparent 2px, rgba(0,255,255,.015) 2px, rgba(0,255,255,.015) 4px);
       pointer-events: none;
     }
 
-    /* frame dos círculos animados */
     .svg-frame {
       position: relative;
       width: 280px; height: 280px;
@@ -183,14 +342,12 @@
     .svg-frame svg { position: absolute; width: 280px; height: 280px; fill: none; }
     .svg-frame circle { filter: drop-shadow(0 0 6px currentColor) drop-shadow(0 0 12px currentColor); }
 
-    /* cantos decorativos do frame */
     .corner { position: absolute; width: 16px; height: 16px; border-color: #00ffff; border-style: solid; opacity: .5; }
     .corner-tl { top: -8px;    left: -8px;  border-width: 1.5px 0 0 1.5px; }
     .corner-tr { top: -8px;    right: -8px; border-width: 1.5px 1.5px 0 0; }
     .corner-bl { bottom: -8px; left: -8px;  border-width: 0 0 1.5px 1.5px; }
     .corner-br { bottom: -8px; right: -8px; border-width: 0 1.5px 1.5px 0; }
 
-    /* cada círculo gira em velocidade diferente — efeito HUD */
     #out2   { animation: spin     12s linear infinite; transform-origin: center; }
     #out3   { animation: spin      6s linear infinite; transform-origin: center; }
     #inner1 { animation: spin-rev  8s linear infinite; transform-origin: center; }
@@ -199,7 +356,6 @@
     @keyframes spin     { to { transform: rotate(360deg);  } }
     @keyframes spin-rev { to { transform: rotate(-360deg); } }
 
-    /* ponto central que pulsa */
     #center1 {
       fill: #ffdd00;
       animation: pulse 2s ease-in-out infinite;
@@ -240,13 +396,12 @@
       overflow: hidden;
     }
 
-    /* largura animada via JS conforme o progresso avança */
     .progress-bar-fill { height: 100%; width: 0%; background: #00ffff; box-shadow: 0 0 8px #00ffff; transition: width .08s linear; }
 
     .status-text  { color: #00ffff; font-size: 10px; letter-spacing: 2px; opacity: .5; height: 14px; }
     .pct-display  { color: #ffdd00; font-size: 11px; letter-spacing: 2px; margin-top: 8px; opacity: .8; }
 
-    /* cobre a tela toda, igual ao loading, mas com z-index maior */
+    /* ── TELA INÍCIO ── */
     #tela-inicio {
       position: fixed;
       inset: 0;
@@ -259,7 +414,6 @@
       font-family: 'Courier New', monospace;
     }
 
-    /* textinho acima do botão — reutiliza a animação flicker do loading */
     #tela-inicio p {
       color: #00ffff;
       font-size: 11px;
@@ -269,7 +423,6 @@
       animation: flicker 4s infinite;
     }
 
-    /* botão sem fundo — a borda é feita com ::before e ::after */
     #btn-iniciar {
       position: relative;
       background: transparent;
@@ -284,8 +437,6 @@
       transition: color 0.3s;
     }
 
-    /* ::before e ::after são elementos "fantasma" criados só pelo CSS
-       a gente usa eles pra fazer a borda dupla sem precisar de divs extras */
     #btn-iniciar::before,
     #btn-iniciar::after {
       content: '';
@@ -296,33 +447,35 @@
       transition: opacity 0.3s, transform 0.3s;
     }
 
-    /* segunda borda — um pouco maior, mais transparente */
     #btn-iniciar::after {
       transform: scale(1.08);
       opacity: 0.15;
     }
 
-    /* hover: clareia o texto e expande as bordas */
     #btn-iniciar:hover { color: #ffffff; }
     #btn-iniciar:hover::before { opacity: 0.9; }
     #btn-iniciar:hover::after  { transform: scale(1.15); opacity: 0.3; }
+
+    /* ── DRAG OVER ── */
+    .chat-area.drag-over #caixa-de-chat {
+      background: rgba(78,168,222,0.06);
+      outline: 2px dashed rgba(78,168,222,0.5);
+      outline-offset: -8px;
+    }
   </style>
 </head>
 
 <body>
 
-  <!-- tela inicial — aparece antes do loading, o clique libera o áudio -->
+  <!-- tela inicial -->
   <div id="tela-inicio">
     <p>SISTEMA OFFLINE</p>
-    <button id="btn-iniciar" onclick="iniciarJarvis()">
-      ▶ INICIAR JARVIS
-    </button>
+    <button id="btn-iniciar" onclick="iniciarJarvis()">▶ INICIAR JARVIS</button>
   </div>
 
-  <!-- arquivo de áudio — preload carrega antes de tocar -->
   <audio id="som-loading" src="jarvis.mp3" preload="auto"></audio>
 
-  <!-- tela de loading: some quando o JS adiciona a classe .ocultar -->
+  <!-- loading -->
   <div id="loading-screen">
     <div class="scanline"></div>
     <div class="svg-frame">
@@ -330,7 +483,6 @@
       <div class="corner corner-tr"></div>
       <div class="corner corner-bl"></div>
       <div class="corner corner-br"></div>
-      <!-- cada SVG é uma camada separada pra poder animar individualmente -->
       <svg viewBox="0 0 344 344"><circle cx="172" cy="172" r="138" stroke="#00ffff" stroke-width="2.5" stroke-dasharray="60 18 30 18 80 18 40 18" stroke-linecap="round"/></svg>
       <svg viewBox="0 0 344 344"><g id="out2"><circle cx="172" cy="172" r="108" stroke="#ccee00" stroke-width="2" stroke-dasharray="50 15 25 15 65 15" stroke-linecap="round"/></g></svg>
       <svg viewBox="0 0 344 344"><g id="out3"><circle cx="172" cy="172" r="80" stroke="#00ffff" stroke-width="2" stroke-dasharray="40 14 20 14 55 14"/></g></svg>
@@ -347,15 +499,21 @@
     </div>
   </div>
 
-  <!-- app principal: sidebar + chat -->
-  <div class="app">
+  <!-- lightbox para visualizar imagens em tela cheia -->
+  <div id="lightbox" onclick="fecharLightbox()">
+    <img id="lightbox-img" src="" alt="Imagem ampliada">
+  </div>
 
+  <!-- toast de notificação -->
+  <div id="toast"></div>
+
+  <!-- app -->
+  <div class="app">
     <div class="sidebar">
       <div class="sidebar-logo">
         <img src="reator.png" alt="Logo JARVIS">
         <span>JARVIS</span>
       </div>
-      <!-- cada botão chama escolherEsporte() com o nome do esporte -->
       <div class="esporte-botao" onclick="escolherEsporte('Futebol')">⚽ Futebol</div>
       <div class="esporte-botao" onclick="escolherEsporte('Basquete')">🏀 Basquete</div>
       <div class="esporte-botao" onclick="escolherEsporte('Futebol Americano')">🏈 Fut. Americano</div>
@@ -363,26 +521,54 @@
       <div class="esporte-botao" onclick="escolherEsporte('Vôlei')">🏐 Vôlei</div>
     </div>
 
-    <div class="chat-area">
+    <div class="chat-area" id="chat-area">
       <div class="chat-header">
         <img src="reator.png" alt="Logo JARVIS">
         JARVIS - Assistente Esportivo
       </div>
-      <!-- mensagens aparecem aqui via JS -->
+
       <div id="caixa-de-chat"></div>
+
+      <!-- preview dos arquivos selecionados -->
+      <div id="area-preview"></div>
+
+      <!-- barra de input -->
       <div class="area-de-input">
-        <input type="text" id="campo-mensagem" placeholder="Digite sua pergunta sobre esportes..." onkeypress="verificarEnter(event)">
+
+        <!-- botão de imagem -->
+        <button class="btn-anexo" title="Enviar imagem">
+          📷
+          <input type="file" id="input-imagem" accept="image/*" multiple onchange="selecionarArquivos(this.files, 'imagem')">
+        </button>
+
+        <!-- botão de arquivo -->
+        <button class="btn-anexo" title="Anexar arquivo">
+          📎
+          <input type="file" id="input-arquivo" accept=".pdf,.doc,.docx,.txt,.csv,.xlsx,.xls,.pptx,.zip" multiple onchange="selecionarArquivos(this.files, 'arquivo')">
+        </button>
+
+        <input
+          type="text"
+          id="campo-mensagem"
+          placeholder="Digite sua pergunta sobre esportes..."
+          onkeypress="verificarEnter(event)"
+        >
         <button id="botao-enviar" onclick="enviarMensagem()">Enviar</button>
       </div>
     </div>
-
   </div>
 
   <script>
+    // ── ESTADO GLOBAL ──────────────────────────────────────────────────────────
     const caixaChat = document.getElementById("caixa-de-chat");
+    const areaPreview = document.getElementById("area-preview");
     let esporteSelecionado = "";
 
-    // respostas por esporte — sorteia uma aleatória pra não repetir sempre
+    // lista de arquivos pendentes (aguardando envio)
+    // cada item: { file: File, tipo: 'imagem'|'arquivo', dataURL: string, id: string }
+    let arquivosPendentes = [];
+
+    // ── DADOS DE RESPOSTAS ─────────────────────────────────────────────────────
     const respostasEsportes = {
       "Futebol":           ["Hoje tem jogo do Brasileirão! ⚽", "O Palmeiras tá na liderança essa semana!", "Copa do Mundo tá chegando, bora torcer!", "Campeonato Paulista foi insano com o Palmeiras sendo campeão 🔥"],
       "Basquete":          ["NBA com jogos incríveis essa semana! 🏀", "LeBron James fez 40 pontos ontem!", "NBB também tá demais aqui no Brasil!", "Os playoffs tão chegando, fica ligado 👀"],
@@ -398,7 +584,18 @@
       "Isso é sobre esportes? Me conta mais detalhes!"
     ];
 
-    // palavras que identificam cada esporte na mensagem do usuário
+    const respostasArquivo = [
+      "Recebi o arquivo! Analisando conteúdo... 📄",
+      "Arquivo recebido com sucesso. Processando dados! 🔍",
+      "Arquivo carregado! Posso analisar esse conteúdo pra você 📊"
+    ];
+
+    const respostasImagem = [
+      "Imagem recebida! Identificando elementos visuais... 🔭",
+      "Legal! Analisando sua imagem agora 🖼️",
+      "Imagem carregada com sucesso! O que quer saber sobre ela? 👁️"
+    ];
+
     const palavrasChave = {
       "Futebol":           ["futebol", "gol", "bola"],
       "Basquete":          ["basquete", "nba", "basketball"],
@@ -407,41 +604,221 @@
       "Vôlei":             ["volei", "vôlei", "brasil"]
     };
 
+    // ── HELPERS ───────────────────────────────────────────────────────────────
     function aleatorio(lista) {
       return lista[Math.floor(Math.random() * lista.length)];
     }
 
-    function adicionarMensagem(texto, tipo) {
+    function formatarTamanho(bytes) {
+      if (bytes < 1024) return bytes + " B";
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
+      return (bytes / (1024 * 1024)).toFixed(1) + " MB";
+    }
+
+    function iconePorExtensao(nome) {
+      const ext = nome.split('.').pop().toLowerCase();
+      const icones = {
+        pdf: "📕", doc: "📘", docx: "📘", txt: "📄",
+        csv: "📊", xlsx: "📊", xls: "📊",
+        pptx: "📙", ppt: "📙", zip: "🗜️", rar: "🗜️"
+      };
+      return icones[ext] || "📄";
+    }
+
+    function gerarId() {
+      return Math.random().toString(36).slice(2, 9);
+    }
+
+    // ── TOAST ─────────────────────────────────────────────────────────────────
+    function mostrarToast(msg) {
+      const t = document.getElementById("toast");
+      t.textContent = msg;
+      t.classList.add("visivel");
+      setTimeout(() => t.classList.remove("visivel"), 2500);
+    }
+
+    // ── LIGHTBOX ──────────────────────────────────────────────────────────────
+    function abrirLightbox(src) {
+      document.getElementById("lightbox-img").src = src;
+      document.getElementById("lightbox").classList.add("ativo");
+    }
+
+    function fecharLightbox() {
+      document.getElementById("lightbox").classList.remove("ativo");
+    }
+
+    // fecha lightbox com ESC
+    document.addEventListener("keydown", function(e) {
+      if (e.key === "Escape") fecharLightbox();
+    });
+
+    // ── SELEÇÃO DE ARQUIVOS ───────────────────────────────────────────────────
+    const MAX_ARQUIVOS = 5;
+    const MAX_TAMANHO  = 20 * 1024 * 1024; // 20 MB por arquivo
+
+    function selecionarArquivos(files, tipo) {
+      Array.from(files).forEach(function(file) {
+        // validações
+        if (arquivosPendentes.length >= MAX_ARQUIVOS) {
+          mostrarToast("Máximo de " + MAX_ARQUIVOS + " arquivos por mensagem.");
+          return;
+        }
+        if (file.size > MAX_TAMANHO) {
+          mostrarToast(file.name + " excede 20 MB.");
+          return;
+        }
+
+        const id = gerarId();
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+          const dataURL = e.target.result;
+          arquivosPendentes.push({ file, tipo, dataURL, id });
+          renderizarPreview();
+        };
+
+        reader.readAsDataURL(file);
+      });
+
+      // limpa o input pra permitir re-selecionar o mesmo arquivo
+      document.getElementById("input-imagem").value  = "";
+      document.getElementById("input-arquivo").value = "";
+    }
+
+    function removerPendente(id) {
+      arquivosPendentes = arquivosPendentes.filter(function(a) { return a.id !== id; });
+      renderizarPreview();
+    }
+
+    function renderizarPreview() {
+      areaPreview.innerHTML = "";
+
+      if (arquivosPendentes.length === 0) {
+        areaPreview.classList.remove("ativo");
+        return;
+      }
+
+      areaPreview.classList.add("ativo");
+
+      arquivosPendentes.forEach(function(item) {
+        const div = document.createElement("div");
+        div.className = "preview-item";
+
+        if (item.tipo === "imagem") {
+          const img = document.createElement("img");
+          img.src = item.dataURL;
+          img.alt = item.file.name;
+          div.appendChild(img);
+        } else {
+          const inner = document.createElement("div");
+          inner.className = "preview-item-arquivo";
+
+          const icone = document.createElement("span");
+          icone.className = "preview-icone";
+          icone.textContent = iconePorExtensao(item.file.name);
+
+          const nome = document.createElement("span");
+          nome.className = "preview-nome";
+          nome.textContent = item.file.name;
+
+          inner.appendChild(icone);
+          inner.appendChild(nome);
+          div.appendChild(inner);
+        }
+
+        const btn = document.createElement("button");
+        btn.className = "preview-remover";
+        btn.textContent = "✕";
+        btn.title = "Remover";
+        btn.onclick = (function(id) { return function() { removerPendente(id); }; })(item.id);
+        div.appendChild(btn);
+
+        areaPreview.appendChild(div);
+      });
+    }
+
+    // ── ADICIONAR MENSAGEM ────────────────────────────────────────────────────
+    function adicionarMensagem(texto, tipo, anexos) {
       const msg = document.createElement("div");
       msg.classList.add("mensagem", tipo);
       caixaChat.appendChild(msg);
-      caixaChat.scrollTop = caixaChat.scrollHeight;
 
       if (tipo === "mensagem-bot") {
-        // bot: adiciona logo do JARVIS + efeito de digitação
+        // logo + texto animado
         const img = document.createElement("img");
         img.src = "reator.png"; img.alt = "JARVIS"; img.className = "msg-logo";
         msg.classList.add("mensagem-bot-com-logo");
         msg.appendChild(img);
 
-        const span = document.createElement("span");
-        msg.appendChild(span);
+        const wrapper = document.createElement("div");
+        msg.appendChild(wrapper);
 
-        let i = 0;
-        const intervalo = setInterval(function () {
-          span.textContent += texto[i++];
-          caixaChat.scrollTop = caixaChat.scrollHeight;
-          if (i >= texto.length) clearInterval(intervalo);
-        }, 18);
+        if (texto) {
+          const span = document.createElement("span");
+          wrapper.appendChild(span);
+          let i = 0;
+          const intervalo = setInterval(function() {
+            span.textContent += texto[i++];
+            caixaChat.scrollTop = caixaChat.scrollHeight;
+            if (i >= texto.length) clearInterval(intervalo);
+          }, 18);
+        }
       } else {
-        msg.innerText = texto; // usuário: aparece de uma vez
+        // mensagem do usuário
+        if (texto) {
+          const p = document.createElement("p");
+          p.textContent = texto;
+          msg.appendChild(p);
+        }
+
+        // exibe imagens e arquivos anexados
+        if (anexos && anexos.length > 0) {
+          anexos.forEach(function(item) {
+            if (item.tipo === "imagem") {
+              const img = document.createElement("img");
+              img.src = item.dataURL;
+              img.alt = item.file.name;
+              img.className = "msg-imagem";
+              img.title = "Clique para ampliar";
+              img.onclick = (function(src) { return function() { abrirLightbox(src); }; })(item.dataURL);
+              msg.appendChild(img);
+            } else {
+              const divArq = document.createElement("div");
+              divArq.className = "msg-arquivo";
+
+              const icone = document.createElement("span");
+              icone.className = "msg-arquivo-icone";
+              icone.textContent = iconePorExtensao(item.file.name);
+
+              const info = document.createElement("div");
+              info.className = "msg-arquivo-info";
+
+              const nome = document.createElement("span");
+              nome.className = "msg-arquivo-nome";
+              nome.textContent = item.file.name;
+
+              const tamanho = document.createElement("span");
+              tamanho.className = "msg-arquivo-tamanho";
+              tamanho.textContent = formatarTamanho(item.file.size);
+
+              info.appendChild(nome);
+              info.appendChild(tamanho);
+              divArq.appendChild(icone);
+              divArq.appendChild(info);
+              msg.appendChild(divArq);
+            }
+          });
+        }
       }
+
+      caixaChat.scrollTop = caixaChat.scrollHeight;
     }
 
+    // ── ESCOLHER ESPORTE ──────────────────────────────────────────────────────
     function escolherEsporte(nomeEsporte) {
       esporteSelecionado = nomeEsporte;
       adicionarMensagem(nomeEsporte, "mensagem-usuario");
-      setTimeout(function () {
+      setTimeout(function() {
         adicionarMensagem(aleatorio(respostasEsportes[nomeEsporte]), "mensagem-bot");
       }, 600);
     }
@@ -449,37 +826,101 @@
     function detectarEsporte(texto) {
       const lower = texto.toLowerCase();
       for (const esporte in palavrasChave) {
-        if (palavrasChave[esporte].some(function (p) { return lower.includes(p); }))
+        if (palavrasChave[esporte].some(function(p) { return lower.includes(p); }))
           return esporte;
       }
       return null;
     }
 
+    // ── ENVIAR MENSAGEM ───────────────────────────────────────────────────────
     function enviarMensagem() {
-      const campo = document.getElementById("campo-mensagem");
-      const texto = campo.value.trim();
-      if (!texto) return;
+      const campo  = document.getElementById("campo-mensagem");
+      const texto  = campo.value.trim();
+      const anexos = [...arquivosPendentes];
 
-      adicionarMensagem(texto, "mensagem-usuario");
+      // precisa de texto OU de pelo menos um arquivo
+      if (!texto && anexos.length === 0) return;
+
+      // exibe a mensagem do usuário com os anexos
+      adicionarMensagem(texto, "mensagem-usuario", anexos);
+
+      // limpa estado
       campo.value = "";
+      arquivosPendentes = [];
+      renderizarPreview();
 
-      setTimeout(function () {
-        const esporte = detectarEsporte(texto);
-        adicionarMensagem(
-          esporte ? aleatorio(respostasEsportes[esporte]) : aleatorio(respostasGenericas),
-          "mensagem-bot"
-        );
+      // resposta do bot
+      setTimeout(function() {
+        const temImagens  = anexos.some(function(a) { return a.tipo === "imagem"; });
+        const temArquivos = anexos.some(function(a) { return a.tipo === "arquivo"; });
+
+        let resposta;
+        if (temImagens && !texto) {
+          resposta = aleatorio(respostasImagem);
+        } else if (temArquivos && !texto) {
+          resposta = aleatorio(respostasArquivo);
+        } else if (temImagens || temArquivos) {
+          const esporte = detectarEsporte(texto);
+          const base = esporte ? aleatorio(respostasEsportes[esporte]) : aleatorio(respostasGenericas);
+          const extra = temImagens ? " (e já vi sua imagem 📷)" : " (e recebi seu arquivo 📎)";
+          resposta = base + extra;
+        } else {
+          const esporte = detectarEsporte(texto);
+          resposta = esporte ? aleatorio(respostasEsportes[esporte]) : aleatorio(respostasGenericas);
+        }
+
+        adicionarMensagem(resposta, "mensagem-bot");
       }, 700);
     }
 
-    // event.key é o jeito moderno — keyCode era o antigo
     function verificarEnter(evento) {
       if (evento.key === "Enter") enviarMensagem();
     }
 
-    // loading: anima a barra de 0 a 100% e depois exibe o chat
-    const stages   = ["INICIALIZANDO SISTEMA", "CARREGANDO MÓDULOS", "CALIBRANDO SENSORES", "VERIFICANDO INTEGRIDADE", "SINCRONIZANDO IA", "SISTEMA PRONTO"];
-    const statuses = ["BOOT SEQUENCE STARTED...", "LOADING CORE MODULES...", "SENSOR ARRAY ONLINE...", "INTEGRITY CHECK: OK", "AI SYNC IN PROGRESS...", "ALL SYSTEMS NOMINAL"];
+    // ── DRAG & DROP na área de chat ───────────────────────────────────────────
+    const chatArea = document.getElementById("chat-area");
+
+    chatArea.addEventListener("dragover", function(e) {
+      e.preventDefault();
+      chatArea.classList.add("drag-over");
+    });
+
+    chatArea.addEventListener("dragleave", function(e) {
+      if (!chatArea.contains(e.relatedTarget)) {
+        chatArea.classList.remove("drag-over");
+      }
+    });
+
+    chatArea.addEventListener("drop", function(e) {
+      e.preventDefault();
+      chatArea.classList.remove("drag-over");
+
+      const files = e.dataTransfer.files;
+      if (!files.length) return;
+
+      Array.from(files).forEach(function(file) {
+        const tipo = file.type.startsWith("image/") ? "imagem" : "arquivo";
+        selecionarArquivos([file], tipo);
+      });
+
+      mostrarToast(files.length + " arquivo(s) adicionado(s)!");
+    });
+
+    // ── COLAR IMAGEM DO CLIPBOARD (Ctrl+V) ────────────────────────────────────
+    document.addEventListener("paste", function(e) {
+      const items = e.clipboardData && e.clipboardData.items;
+      if (!items) return;
+      Array.from(items).forEach(function(item) {
+        if (item.type.startsWith("image/")) {
+          const file = item.getAsFile();
+          if (file) selecionarArquivos([file], "imagem");
+        }
+      });
+    });
+
+    // ── LOADING ───────────────────────────────────────────────────────────────
+    const stages   = ["INICIALIZANDO SISTEMA","CARREGANDO MÓDULOS","CALIBRANDO SENSORES","VERIFICANDO INTEGRIDADE","SINCRONIZANDO IA","SISTEMA PRONTO"];
+    const statuses = ["BOOT SEQUENCE STARTED...","LOADING CORE MODULES...","SENSOR ARRAY ONLINE...","INTEGRITY CHECK: OK","AI SYNC IN PROGRESS...","ALL SYSTEMS NOMINAL"];
 
     let pct = 0, stageIdx = 0;
     const pbar       = document.getElementById("pbar");
@@ -488,8 +929,6 @@
     const pctDisplay = document.getElementById("pct-display");
     const loading    = document.getElementById("loading-screen");
 
-    // tick() se chama a cada 80ms até chegar em 100%
-    // o play() do som NÃO fica aqui — senão reiniciaria a cada tick
     function tick() {
       if (pct < 100) pct = Math.min(pct + Math.random() * 2.2, 100);
 
@@ -508,11 +947,14 @@
         stageLabel.textContent = stages[5];
         statusText.textContent = statuses[5];
         pctDisplay.textContent = "100%";
-        setTimeout(function () {
+        setTimeout(function() {
           loading.classList.add("ocultar");
-          setTimeout(function () {
+          setTimeout(function() {
             loading.style.display = "none";
-            adicionarMensagem("Olá! Eu sou o JARVIS. Escolha um esporte ou me pergunte qualquer coisa!", "mensagem-bot");
+            adicionarMensagem(
+              "Olá! Eu sou o JARVIS. Escolha um esporte, me pergunte qualquer coisa — ou envie uma imagem 📷 e um arquivo 📎 usando os botões no chat!",
+              "mensagem-bot"
+            );
           }, 800);
         }, 1800);
         return;
@@ -522,13 +964,8 @@
     }
 
     function iniciarJarvis() {
-      // esconde a tela de início
       document.getElementById("tela-inicio").style.display = "none";
-
-      // toca o som uma única vez — só funciona depois de um clique, por isso essa tela existe
       document.getElementById("som-loading").play();
-
-      // inicia o loading
       tick();
     }
   </script>
