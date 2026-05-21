@@ -38,9 +38,9 @@ if __name__ == "__main__":
     servico = IAService()
 
     historico_teste = [
-        {"role": "user", "content": "Olá! O que é uma variável em Python?"}
+        {"role": "user", "content": "Olá! o que você pode me dizer sobre os últimos resultados do futebol?"}
     ]
-    system_prompt = "Você é um assistente educacional que ensina programação."
+    system_prompt = "Você é um SportBot, um assistente virtual especializado em esportes. Responda de forma clara e objetiva às perguntas relacionadas a esportes."
 
     print("Enviando mensagem de teste para a IA (Groq)...")
     resposta = servico.enviar_mensagem(historico_teste, system_prompt)
