@@ -23,12 +23,15 @@ ia_service = IAService()
 
 
 @app.route("/")
-def index():
+def main2():
     """
-    Serve o arquivo index.html.
+    Serve o arquivo main2.html.
     """
-    return send_from_directory(app.static_folder, "index.html")
+    return send_from_directory(app.static_folder, "main2.html")
 
+@app.route("/emoji-picker.js")
+def emoji_picker():
+    return send_from_directory(app.static_folder, "emoji-picker.js")
 
 @app.route("/chat", methods=['POST'])
 def chat():
