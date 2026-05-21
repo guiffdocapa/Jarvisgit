@@ -122,6 +122,7 @@
       background-color: #1b263b;
       gap: 8px;
       border-top: 1px solid #2c3e50;
+      align-items: center; /* ← garante alinhamento vertical do botão emoji */
     }
 
     #campo-mensagem {
@@ -136,6 +137,19 @@
     }
 
     #campo-mensagem::placeholder { color: #888; }
+
+    /* ── MUDANÇA 1: estilo do botão emoji ── */
+    #botao-emoji {
+      background: none;
+      border: none;
+      font-size: 1.4rem;
+      cursor: pointer;
+      border-radius: 8px;
+      padding: 6px 8px;
+      line-height: 1;
+      transition: background 0.15s, transform 0.15s;
+    }
+    #botao-emoji:hover { background: rgba(255,255,255,0.1); transform: scale(1.15); }
 
     #botao-enviar {
       padding: 10px 20px;
@@ -154,6 +168,18 @@
     #botao-enviar:disabled {
       background-color: #666;
       cursor: not-allowed;
+    }
+
+    /* variáveis do emoji picker para combinar com o tema */
+    :root {
+      --ep-bg:          #1b263b;
+      --ep-border:      rgba(255,255,255,.15);
+      --ep-search-bg:   rgba(255,255,255,.07);
+      --ep-text:        #ffffff;
+      --ep-muted:       #666;
+      --ep-hover:       rgba(255,255,255,.1);
+      --ep-accent:      #4ea8de;
+      --ep-accent-soft: rgba(78,168,222,.2);
     }
 
     #loading-screen {
@@ -301,7 +327,6 @@
     #btn-iniciar:hover::before { opacity: 0.9; }
     #btn-iniciar:hover::after  { transform: scale(1.15); opacity: 0.3; }
 
-    /* digitando... */
     .digitando {
       background-color: #415a77;
       align-self: flex-start;
@@ -367,6 +392,7 @@
         JARVIS - Assistente Esportivo
       </div>
       <div id="caixa-de-chat"></div>
+
       <div class="area-de-input">
         <input
           type="text"
@@ -374,15 +400,25 @@
           placeholder="Digite sua pergunta sobre esportes..."
           onkeydown="verificarEnter(event)"
         />
+        <!-- MUDANÇA 2: botão emoji adicionado aqui, entre o input e o botão enviar -->
+        <button id="botao-emoji" title="Emojis">😊</button>
         <button id="botao-enviar" onclick="enviarMensagem()">Enviar</button>
       </div>
     </div>
   </div>
 
+  <!-- MUDANÇA 3: importar o emoji-picker.js antes de fechar o body -->
+  <script src="emoji-picker.js"></script>
+  <script>
+    new EmojiPicker({
+      inputSelector:   "#campo-mensagem",
+      triggerSelector: "#botao-emoji"
+    });
+  </script>
+
   <script>
     const caixaChat = document.getElementById("caixa-de-chat");
 
-    // histórico da conversa para enviar ao backend
     let historico = [];
 
     function adicionarMensagem(texto, tipo) {
@@ -474,7 +510,6 @@
       if (evento.key === "Enter") enviarMensagem();
     }
 
-    // loading
     const stages   = ["INICIALIZANDO SISTEMA", "CARREGANDO MÓDULOS", "CALIBRANDO SENSORES", "VERIFICANDO INTEGRIDADE", "SINCRONIZANDO IA", "SISTEMA PRONTO"];
     const statuses = ["BOOT SEQUENCE STARTED...", "LOADING CORE MODULES...", "SENSOR ARRAY ONLINE...", "INTEGRITY CHECK: OK", "AI SYNC IN PROGRESS...", "ALL SYSTEMS NOMINAL"];
 
