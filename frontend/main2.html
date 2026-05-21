@@ -39,7 +39,6 @@
       color: var(--text);
     }
 
-    /* ── SCANLINES subtis em todo o fundo ── */
     body::before {
       content: '';
       position: fixed;
@@ -76,7 +75,6 @@
       overflow: hidden;
     }
 
-    /* cabeçalho da sidebar */
     .sidebar-header {
       padding: 24px 20px 20px;
       border-bottom: 1px solid var(--border);
@@ -87,7 +85,6 @@
       position: relative;
     }
 
-    /* anel holográfico ao redor do logo */
     .logo-ring {
       position: relative;
       width: 72px;
@@ -111,14 +108,8 @@
       background: var(--bg);
     }
 
-    .logo-ring .ring-outer {
-      animation: spin 12s linear infinite;
-      transform-origin: center;
-    }
-    .logo-ring .ring-inner {
-      animation: spin-rev 7s linear infinite;
-      transform-origin: center;
-    }
+    .logo-ring .ring-outer { animation: spin 12s linear infinite; transform-origin: center; }
+    .logo-ring .ring-inner { animation: spin-rev 7s linear infinite; transform-origin: center; }
 
     @keyframes spin     { to { transform: rotate(360deg);  } }
     @keyframes spin-rev { to { transform: rotate(-360deg); } }
@@ -140,7 +131,6 @@
       font-family: 'Space Mono', monospace;
     }
 
-    /* indicador de status online */
     .status-pill {
       display: flex;
       align-items: center;
@@ -165,7 +155,6 @@
       50%       { opacity: 0.4; }
     }
 
-    /* seção de esportes */
     .sidebar-section-label {
       padding: 16px 20px 8px;
       font-size: 9px;
@@ -215,7 +204,6 @@
       color: var(--cyan);
     }
 
-    /* barra lateral esquerda de destaque no item ativo */
     .esporte-botao.ativo::before {
       content: '';
       position: absolute;
@@ -227,7 +215,6 @@
 
     .esporte-emoji { font-size: 16px; flex-shrink: 0; }
 
-    /* rodapé da sidebar */
     .sidebar-footer {
       padding: 12px 20px;
       border-top: 1px solid var(--border);
@@ -249,7 +236,6 @@
       min-width: 0;
     }
 
-    /* ── HEADER ── */
     .chat-header {
       background: var(--bg2);
       border-bottom: 1px solid var(--border);
@@ -312,7 +298,6 @@
       text-transform: uppercase;
     }
 
-    /* ── MENSAGENS ── */
     #caixa-de-chat {
       flex: 1;
       padding: 16px 20px;
@@ -326,7 +311,6 @@
     #caixa-de-chat::-webkit-scrollbar-track { background: transparent; }
     #caixa-de-chat::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
 
-    /* linha de data/hora separadora */
     .separador-tempo {
       display: flex;
       align-items: center;
@@ -350,7 +334,6 @@
       white-space: nowrap;
     }
 
-    /* wrapper de cada linha de mensagem */
     .msg-row {
       display: flex;
       align-items: flex-end;
@@ -359,9 +342,6 @@
 
     .msg-row.usuario { flex-direction: row-reverse; align-items: flex-end; }
 
-
-
-    /* avatar do bot */
     .msg-avatar {
       width: 28px; height: 28px;
       border-radius: 6px;
@@ -381,15 +361,15 @@
       padding: 3px;
     }
 
-    /* balão */
     .mensagem {
-      padding: 10px 14px;
+      padding: 8px 12px;
       border-radius: 10px;
       word-break: break-word;
       white-space: normal;
-      line-height: 1.55;
-      font-size: 14px;
+      line-height: 1.5;
+      font-size: 13px;
       position: relative;
+      max-width: 520px;
     }
 
     .mensagem-bot {
@@ -399,14 +379,125 @@
       color: var(--text);
     }
 
+    /* Formatação interna do balão do bot */
+    .mensagem-bot p {
+      margin-bottom: 6px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--text);
+    }
+    .mensagem-bot p:last-child {
+      margin-bottom: 0;
+    }
+    .mensagem-bot ul,
+    .mensagem-bot ol {
+      margin: 4px 0 6px 0;
+      padding: 0;
+      list-style: none;
+    }
+    .mensagem-bot li {
+      margin-bottom: 4px;
+      font-size: 12.5px;
+      line-height: 1.5;
+      padding-left: 14px;
+      position: relative;
+      color: var(--text);
+    }
+    .mensagem-bot ul li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: var(--cyan);
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 1.3;
+    }
+    .mensagem-bot ol {
+      counter-reset: item;
+    }
+    .mensagem-bot ol li {
+      counter-increment: item;
+    }
+    .mensagem-bot ol li::before {
+      content: counter(item) ".";
+      position: absolute;
+      left: 0;
+      color: var(--cyan);
+      font-size: 11px;
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      top: 1px;
+    }
+    .mensagem-bot strong {
+      color: #e8f4fc;
+      font-weight: 600;
+    }
+    .mensagem-bot em {
+      color: var(--yellow);
+      font-style: normal;
+      font-weight: 500;
+    }
+    .mensagem-bot .bot-section-title {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Space Mono', monospace;
+      font-size: 8.5px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin: 10px 0 5px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid var(--border2);
+    }
+    .mensagem-bot .bot-section-title::before {
+      content: '';
+      display: inline-block;
+      width: 3px;
+      height: 3px;
+      background: var(--cyan);
+      border-radius: 50%;
+      box-shadow: 0 0 4px var(--cyan);
+      flex-shrink: 0;
+    }
+    .mensagem-bot .bot-section-title:first-child {
+      margin-top: 2px;
+    }
+    .mensagem-bot .bot-tag {
+      display: inline-block;
+      background: rgba(0,229,255,0.08);
+      border: 1px solid var(--border2);
+      border-radius: 3px;
+      padding: 1px 6px;
+      font-size: 10.5px;
+      color: var(--cyan);
+      font-family: 'Space Mono', monospace;
+      letter-spacing: 0.5px;
+    }
+    .mensagem-bot .bot-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 8px 0;
+    }
+    .mensagem-bot .bot-highlight {
+      background: rgba(0,229,255,0.06);
+      border-left: 2px solid var(--cyan);
+      border-radius: 0 4px 4px 0;
+      padding: 5px 10px;
+      margin: 6px 0;
+      font-size: 12.5px;
+      line-height: 1.5;
+      color: var(--text);
+    }
+
     .mensagem-usuario {
       background: var(--user-bg);
       border: 1px solid rgba(0,229,255,0.2);
       border-bottom-right-radius: 3px;
       color: #e8f4fc;
+      max-width: 400px;
     }
 
-    /* timestamp embaixo da mensagem */
     .msg-time {
       font-size: 9px;
       color: var(--text3);
@@ -417,7 +508,6 @@
 
     .msg-row.usuario .msg-time { text-align: right; }
 
-    /* ── IMAGEM NA MENSAGEM ── */
     .msg-imagem {
       max-width: 240px;
       max-height: 180px;
@@ -430,7 +520,6 @@
     }
     .msg-imagem:hover { opacity: 0.88; }
 
-    /* ── ARQUIVO NA MENSAGEM ── */
     .msg-arquivo {
       display: flex;
       align-items: center;
@@ -443,16 +532,11 @@
       font-size: 12px;
     }
 
-    .msg-arquivo-icone {
-      font-size: 22px;
-      flex-shrink: 0;
-    }
-
+    .msg-arquivo-icone { font-size: 22px; flex-shrink: 0; }
     .msg-arquivo-info { display: flex; flex-direction: column; gap: 2px; overflow: hidden; }
     .msg-arquivo-nome { font-weight: 600; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .msg-arquivo-tamanho { font-size: 10px; color: var(--text3); }
 
-    /* ── TYPING INDICATOR ── */
     .typing-indicator {
       display: flex;
       align-items: center;
@@ -511,11 +595,7 @@
       to   { opacity: 1; transform: scale(1); }
     }
 
-    .preview-item img {
-      width: 72px; height: 72px;
-      object-fit: cover;
-      display: block;
-    }
+    .preview-item img { width: 72px; height: 72px; object-fit: cover; display: block; }
 
     .preview-item-arquivo {
       width: 72px; height: 72px;
@@ -570,7 +650,6 @@
       flex-shrink: 0;
     }
 
-    /* botões de anexo */
     .btn-anexo {
       width: 36px; height: 36px;
       border: 1px solid var(--border2);
@@ -604,7 +683,6 @@
       font-size: 0;
     }
 
-    /* campo de texto */
     #campo-mensagem {
       flex: 1;
       height: 36px;
@@ -626,7 +704,6 @@
       background: var(--bg4);
     }
 
-    /* botão enviar */
     #botao-enviar {
       height: 36px;
       padding: 0 18px;
@@ -657,7 +734,6 @@
       cursor: not-allowed;
     }
 
-    /* hint de drag & drop */
     .input-hint {
       font-size: 9px;
       color: var(--text3);
@@ -744,7 +820,6 @@
       gap: 0;
     }
 
-    /* grid de fundo */
     #tela-inicio::before {
       content: '';
       position: absolute;
@@ -965,7 +1040,6 @@
       margin-top: 8px;
     }
 
-    /* corner decorations */
     .corner {
       position: absolute;
       width: 14px; height: 14px;
@@ -1156,53 +1230,18 @@
   </div>
 
   <script>
-    const caixaChat  = document.getElementById("caixa-de-chat");
+    const caixaChat   = document.getElementById("caixa-de-chat");
     const areaPreview = document.getElementById("area-preview");
     let esporteSelecionado = "";
     let arquivosPendentes  = [];
-
-    // ── dados ────────────────────────────────────────────────────────────────
-    const respostasEsportes = {
-      "Futebol":           ["Hoje tem jogo do Brasileirão! ⚽","O Palmeiras está na liderança essa semana!","Copa do Mundo chegando — bora torcer!","Campeonato Paulista foi insano com o Palmeiras campeão 🔥"],
-      "Basquete":          ["NBA com jogos incríveis essa semana! 🏀","LeBron James fez 40 pontos ontem!","NBB também está demais aqui no Brasil!","Os playoffs se aproximam — fique ligado 👀"],
-      "Futebol Americano": ["NFL no domingo como sempre! 🏈","Super Bowl foi épico esse ano!","Tem Thursday Night Football hoje!","Patrick Mahomes dominando demais 🐐"],
-      "Tênis":             ["Roland Garros começa em breve! 🎾","Alcaraz está na final de novo!","Iga Swiatek continua invicta no saibro.","Wimbledon é o torneio mais elegante 🏆"],
-      "Vôlei":             ["Brasil é penta no vôlei! 🏐","Superliga feminina está incrível esse ano!","Gabi Guimarães é a melhor do mundo!","Liga das Nações começa em breve 🌍"]
-    };
-
-    const respostasGenericas = [
-      "Boa pergunta! Ainda estou aprendendo sobre isso. 🤖",
-      "Não tenho essa informação agora. Tente perguntar sobre um esporte específico!",
-      "Estou processando sua consulta... 🤔 Me conte mais detalhes.",
-      "Isso está relacionado a esportes? Me explique melhor!"
-    ];
-
-    const respostasArquivo = [
-      "Arquivo recebido! Analisando conteúdo... 📄",
-      "Processando dados do arquivo. 🔍",
-      "Arquivo carregado com sucesso! 📊"
-    ];
-
-    const respostasImagem = [
-      "Imagem recebida! Identificando elementos visuais... 🔭",
-      "Analisando sua imagem agora. 🖼️",
-      "Imagem carregada! O que deseja saber sobre ela? 👁️"
-    ];
-
-    const palavrasChave = {
-      "Futebol":           ["futebol","gol","bola"],
-      "Basquete":          ["basquete","nba","basketball"],
-      "Futebol Americano": ["americano","nfl","touchdown"],
-      "Tênis":             ["tenis","tênis","raquete"],
-      "Vôlei":             ["volei","vôlei","brasil"]
-    };
+    let historico          = []; // ← histórico real da conversa
 
     // ── helpers ──────────────────────────────────────────────────────────────
     function aleatorio(l)    { return l[Math.floor(Math.random()*l.length)]; }
     function gerarId()       { return Math.random().toString(36).slice(2,9); }
     function formatarTamanho(b) {
-      if (b < 1024)           return b + " B";
-      if (b < 1024*1024)      return (b/1024).toFixed(1) + " KB";
+      if (b < 1024)         return b + " B";
+      if (b < 1024*1024)    return (b/1024).toFixed(1) + " KB";
       return (b/(1024*1024)).toFixed(1) + " MB";
     }
     function iconePorExtensao(n) {
@@ -1292,7 +1331,6 @@
       row.className = "msg-row " + (tipo === "mensagem-usuario" ? "usuario" : "bot");
 
       if (tipo === "mensagem-bot") {
-        // avatar
         const av = document.createElement("div");
         av.className = "msg-avatar";
         const avImg = document.createElement("img");
@@ -1301,7 +1339,6 @@
         row.appendChild(av);
       }
 
-      // coluna: balão + timestamp
       const col = document.createElement("div");
       col.style.cssText = tipo === "mensagem-usuario"
         ? "display:flex;flex-direction:column;align-items:flex-end;max-width:72%;min-width:0;"
@@ -1313,14 +1350,18 @@
 
       if (tipo === "mensagem-bot") {
         if (texto) {
-          const span = document.createElement("span");
-          msg.appendChild(span);
-          let i = 0;
-          const iv = setInterval(() => {
-            span.textContent += texto[i++];
-            caixaChat.scrollTop = caixaChat.scrollHeight;
-            if (i >= texto.length) clearInterval(iv);
-          }, 16);
+          // Renderiza formatado mas com fade-in suave
+          msg.style.opacity = '0';
+          msg.style.transform = 'translateY(4px)';
+          msg.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+          msg.innerHTML = formatarRespostaBot(texto);
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              msg.style.opacity = '1';
+              msg.style.transform = 'translateY(0)';
+              caixaChat.scrollTop = caixaChat.scrollHeight;
+            });
+          });
         }
       } else {
         if (texto) {
@@ -1391,24 +1432,143 @@
       if (el) el.classList.add("ativo");
       document.getElementById("header-esporte").textContent = nome;
 
+      // Envia para a API real em vez de usar resposta hardcoded
+      const mensagemEsporte = `Quero saber sobre ${nome}. Me dê informações, dicas e novidades sobre este esporte!`;
       adicionarMensagem(nome, "mensagem-usuario");
-      mostrarTyping();
-      setTimeout(() => {
-        removerTyping();
-        adicionarMensagem(aleatorio(respostasEsportes[nome]), "mensagem-bot");
-      }, 900);
+      _chamarAPI(mensagemEsporte);
     }
 
-    function detectarEsporte(texto) {
-      const lower = texto.toLowerCase();
-      for (const e in palavrasChave) {
-        if (palavrasChave[e].some(p => lower.includes(p))) return e;
+    // ── formatar resposta do bot ─────────────────────────────────────────────
+    function formatarRespostaBot(texto) {
+      const esc = s => s
+        .replace(/&/g,'&amp;')
+        .replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;');
+
+      const linhas = texto.split('\n');
+      let html = '';
+      let dentroLista = false;
+      let dentroListaNum = false;
+
+      const fecharListas = () => {
+        if (dentroLista)    { html += '</ul>'; dentroLista = false; }
+        if (dentroListaNum) { html += '</ol>'; dentroListaNum = false; }
+      };
+
+      for (let i = 0; i < linhas.length; i++) {
+        const l = linhas[i].trim();
+
+        // Linha vazia
+        if (!l) {
+          fecharListas();
+          continue;
+        }
+
+        // Separador ---
+        if (/^---+$/.test(l)) {
+          fecharListas();
+          html += '<hr class="bot-divider">';
+          continue;
+        }
+
+        // Título ## ou ### ou **texto** sozinho na linha
+        if (/^#{1,3}\s+/.test(l) || /^\*\*[^*]+\*\*\s*:?\s*$/.test(l)) {
+          fecharListas();
+          const titulo = l
+            .replace(/^#{1,3}\s+/, '')
+            .replace(/^\*\*/, '')
+            .replace(/\*\*\s*:?\s*$/, '')
+            .replace(/:$/, '');
+          html += `<div class="bot-section-title">${esc(titulo)}</div>`;
+          continue;
+        }
+
+        // Bloco de destaque > citação
+        if (/^>\s+/.test(l)) {
+          fecharListas();
+          const conteudo = l.replace(/^>\s+/, '');
+          html += `<div class="bot-highlight">${formatarInline(esc(conteudo))}</div>`;
+          continue;
+        }
+
+        // Lista não-ordenada - ou • ou *
+        if (/^[-•*]\s+/.test(l)) {
+          fecharListaNum();
+          if (!dentroLista) { html += '<ul>'; dentroLista = true; }
+          const conteudo = l.replace(/^[-•*]\s+/, '');
+          html += `<li>${formatarInline(esc(conteudo))}</li>`;
+          continue;
+        }
+
+        // Lista numerada 1. 2. etc
+        if (/^\d+[.)]\s+/.test(l)) {
+          fecharLista();
+          if (!dentroListaNum) { html += '<ol>'; dentroListaNum = true; }
+          const conteudo = l.replace(/^\d+[.)]\s+/, '');
+          html += `<li>${formatarInline(esc(conteudo))}</li>`;
+          continue;
+        }
+
+        // Parágrafo normal
+        fecharListas();
+        html += `<p>${formatarInline(esc(l))}</p>`;
       }
-      return null;
+
+      fecharListas();
+      return html;
+
+      function fecharLista()    { if (dentroLista)    { html += '</ul>'; dentroLista = false; } }
+      function fecharListaNum() { if (dentroListaNum) { html += '</ol>'; dentroListaNum = false; } }
+    }
+
+    function formatarInline(texto) {
+      return texto
+        // **negrito**
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        // *itálico* (sem capturar **)
+        .replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, '<em>$1</em>')
+        // _itálico_
+        .replace(/_(.+?)_/g, '<em>$1</em>')
+        // `código`
+        .replace(/`(.+?)`/g, '<span class="bot-tag">$1</span>');
+    }
+
+    // ── chamada real à API ───────────────────────────────────────────────────
+    async function _chamarAPI(texto) {
+      const botao = document.getElementById("botao-enviar");
+      botao.disabled = true;
+      mostrarTyping();
+
+      try {
+        historico.push({ role: "user", content: texto });
+
+        const res = await fetch("/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ mensagem: texto, historico: historico })
+        });
+
+        const dados = await res.json();
+        removerTyping();
+
+        if (dados.resposta) {
+          historico.push({ role: "assistant", content: dados.resposta });
+          adicionarMensagem(dados.resposta, "mensagem-bot");
+        } else {
+          adicionarMensagem("Erro: " + (dados.erro || "Resposta inválida."), "mensagem-bot");
+        }
+
+      } catch (err) {
+        removerTyping();
+        adicionarMensagem("Erro de conexão com o servidor. Verifique se o backend está rodando. 🔌", "mensagem-bot");
+        console.error(err);
+      } finally {
+        botao.disabled = false;
+      }
     }
 
     // ── enviar mensagem ──────────────────────────────────────────────────────
-    function enviarMensagem() {
+    async function enviarMensagem() {
       const campo  = document.getElementById("campo-mensagem");
       const texto  = campo.value.trim();
       const anexos = [...arquivosPendentes];
@@ -1417,25 +1577,22 @@
       adicionarMensagem(texto, "mensagem-usuario", anexos);
       campo.value = ""; arquivosPendentes = []; renderizarPreview();
 
-      mostrarTyping();
-      setTimeout(() => {
-        removerTyping();
+      // Monta mensagem com contexto de esporte se selecionado
+      let mensagemFinal = texto;
+      if (esporteSelecionado && texto) {
+        mensagemFinal = `[Módulo: ${esporteSelecionado}] ${texto}`;
+      }
+
+      // Adiciona contexto de anexos se houver
+      if (anexos.length) {
         const temImg = anexos.some(a => a.tipo === "imagem");
         const temArq = anexos.some(a => a.tipo === "arquivo");
-        let resposta;
-        if (temImg && !texto)       resposta = aleatorio(respostasImagem);
-        else if (temArq && !texto)  resposta = aleatorio(respostasArquivo);
-        else if (temImg || temArq) {
-          const e = detectarEsporte(texto);
-          const base  = e ? aleatorio(respostasEsportes[e]) : aleatorio(respostasGenericas);
-          const extra = temImg ? " (imagem processada 📷)" : " (arquivo recebido 📎)";
-          resposta = base + extra;
-        } else {
-          const e = detectarEsporte(texto);
-          resposta = e ? aleatorio(respostasEsportes[e]) : aleatorio(respostasGenericas);
-        }
-        adicionarMensagem(resposta, "mensagem-bot");
-      }, 900 + Math.random() * 400);
+        const nomes  = anexos.map(a => a.file.name).join(", ");
+        if (temImg) mensagemFinal += ` [Imagem enviada: ${nomes}]`;
+        if (temArq) mensagemFinal += ` [Arquivo enviado: ${nomes}]`;
+      }
+
+      await _chamarAPI(mensagemFinal);
     }
 
     function verificarEnter(e) { if (e.key === "Enter") enviarMensagem(); }
@@ -1491,7 +1648,6 @@
           setTimeout(() => {
             loadEl.style.display = "none";
 
-            // mensagem de boas-vindas com separador
             const sep = document.createElement("div");
             sep.className = "separador-tempo";
             sep.innerHTML = `<span>Sistema iniciado · ${new Date().toLocaleDateString('pt-BR')} · ${horaAtual()}</span>`;
