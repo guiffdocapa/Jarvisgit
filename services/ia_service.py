@@ -10,7 +10,7 @@ class IAService:
     MAX_TOKENS = 1024
 
     def __init__(self):
-        self.cliente = Groq(api_key=os.getenv("REMOVIDO"))
+        self.cliente = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
     def enviar_mensagem(self, historico: list, system_prompt: str) -> str:
         try:
