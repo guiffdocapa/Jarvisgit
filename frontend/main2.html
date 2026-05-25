@@ -686,16 +686,32 @@
     #campo-mensagem {
       flex: 1;
       height: 36px;
+<<<<<<< HEAD
       padding: 0 14px;
+=======
+      padding: 8px 14px;
+>>>>>>> a89a29efffd063efaa4f9873aee827c075ccdef6
       border-radius: 6px;
       border: 1px solid var(--border2);
       outline: none;
       font-size: 13.5px;
+<<<<<<< HEAD
       font-family: 'Inter', sans-serif;
       background: var(--bg3);
       color: var(--text);
       transition: border-color 0.2s;
     }
+=======
+      font-family: 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', 'Inter', sans-serif;
+      background: var(--bg3);
+      color: var(--text);
+      transition: border-color 0.2s;
+      resize: none;
+      overflow: hidden;
+      line-height: 1.4;
+    }
+  
+>>>>>>> a89a29efffd063efaa4f9873aee827c075ccdef6
 
     #campo-mensagem::placeholder { color: var(--text3); }
 
@@ -1214,6 +1230,7 @@
           <input type="file" id="input-arquivo" accept=".pdf,.doc,.docx,.txt,.csv,.xlsx,.xls,.pptx,.zip" multiple onchange="selecionarArquivos(this.files,'arquivo')">
         </button>
 
+<<<<<<< HEAD
         <input
           type="text"
           id="campo-mensagem"
@@ -1223,6 +1240,32 @@
 
         <span class="input-hint">↵</span>
 
+=======
+        <textarea
+          id="campo-mensagem"
+          placeholder="Consulte o JARVIS sobre esportes..."
+          onkeypress="verificarEnter(event)"
+          rows="1"
+        ></textarea>
+
+        <span class="input-hint">↵</span>
+
+        <button id="botao-emoji" title="Emojis" style="
+          width:36px;height:36px;
+          border:1px solid var(--border2);
+          border-radius:6px;
+          background:var(--bg3);
+          color:var(--text2);
+          cursor:pointer;
+          font-size:16px;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          flex-shrink:0;
+          transition:all 0.2s;
+        ">😊</button>
+
+>>>>>>> a89a29efffd063efaa4f9873aee827c075ccdef6
         <button id="botao-enviar" onclick="enviarMensagem()">Enviar</button>
       </div>
     </div>
@@ -1671,5 +1714,16 @@
     }
   </script>
 
+<<<<<<< HEAD
+=======
+  <script src="emoji-picker.js"></script>
+<script>
+  new EmojiPicker({
+    inputSelector:   "#campo-mensagem",
+    triggerSelector: "#botao-emoji"
+  });
+</script>
+
+>>>>>>> a89a29efffd063efaa4f9873aee827c075ccdef6
 </body>
 </html>

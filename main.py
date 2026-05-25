@@ -29,6 +29,12 @@ def main2():
     """
     return send_from_directory(app.static_folder, "main2.html")
 
+<<<<<<< HEAD
+=======
+@app.route("/emoji-picker.js")
+def emoji_picker():
+    return send_from_directory(app.static_folder, "emoji-picker.js")
+>>>>>>> a89a29efffd063efaa4f9873aee827c075ccdef6
 
 @app.route("/chat", methods=['POST'])
 def chat():
